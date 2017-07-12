@@ -107,20 +107,42 @@ public class ser222_unit7_hw02_base
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY)
     {
     	Random rnd = new Random();
-    	
     	if (endX-startX > 3 && endY-startY > 3) {
-    		int point = rnd.nextInt(endX-startX)+startX;
+    		//int point = rnd.nextInt(endX-startX)+startX;
+    		
     		
     		for (int x = startX; x <= endX; x++) {
-    			level[endY/2][x] = ICON_WALL;
+    			level[endY/2+1][x] = ICON_WALL;
     		}
     		
     		for (int y = startY; y <= endY; y++) {
-    			level[y][endX/2] = ICON_WALL;
+    			level[y][endX/2+1] = ICON_WALL;
+    		}
+    		
+    		makeMazeRecursive(level, startX, startY, endX/2, endY/2);
+    		makeMazeRecursive(level, endX/2+2, startY, endX, endY/2);
+		}
+    	else if(endX-startX > 3) {
+    		for (int x = startX; x <= endX; x++) {
+    			level[endY/2+1][x] = ICON_WALL;
     		}
     		makeMazeRecursive(level, startX, startY, endX/2, endY/2);
-    		//makeMazeRecursive(level, endX/2+1, 1, endX-2, endX-2);
+    		makeMazeRecursive(level, endX/2+2, startY, endX, endY/2);
+    	}
+    	else if(endY-startY > 3) {
+    		for (int y = startY; y <= endY; y++) {
+    			level[y][endX/2+1] = ICON_WALL;
     		}
+    		
+    		makeMazeRecursive(level, startX, startY, endX/2, endY/2);
+    		makeMazeRecursive(level, endX/2+2, startY, endX, endY/2);
+    	}
+    	else {
+    		
+    	}
+  
+    	
+    	
     }
      
     
