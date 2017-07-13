@@ -4,6 +4,7 @@
  * @author (your name), Acuna
  * @version (a version number or a date)
  */
+import java.io.IOException;
 import java.util.Random;
 
 public class ser222_unit7_hw02_base
@@ -105,44 +106,88 @@ public class ser222_unit7_hw02_base
 
     //TODO: complete method.
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY)
-    {
-    	Random rnd = new Random();
-    	if (endX-startX > 3 && endY-startY > 3) {
-    		//int point = rnd.nextInt(endX-startX)+startX;
+    {	
+    	//first box
+		for (int y = startY; y <= endY; y++) {
+			level[y][startX+endX/2] = ICON_WALL;
     		
-    		
-    		for (int x = startX; x <= endX; x++) {
-    			level[endY/2+1][x] = ICON_WALL;
-    		}
-    		
-    		for (int y = startY; y <= endY; y++) {
-    			level[y][endX/2+1] = ICON_WALL;
-    		}
-    		
-    		makeMazeRecursive(level, startX, startY, endX/2, endY/2);
-    		makeMazeRecursive(level, endX/2+2, startY, endX, endY/2);
 		}
-    	else if(endX-startX > 3) {
-    		for (int x = startX; x <= endX; x++) {
-    			level[endY/2+1][x] = ICON_WALL;
+		for (int x = startX; x <= endX; x++) {
+			level[startY+endY/2][x] = ICON_WALL;
+    		
+		}
+		
+		//upper left
+		for (int y = startY; y <= endY/2; y++) {
+			level[y][startX+endX/4] = ICON_WALL;
+    	
+		}
+		for (int x = startX; x <= endX/2; x++) {
+			level[startY+endY/4][x] = ICON_WALL;
+    		
+		}
+		drawLevel(level);
+		
+		//upper right
+		for (int y = startY; y <= endY/2; y++) {
+			level[y][startX+3*endX/4] = ICON_WALL;
+    	
+		}
+		for (int x = endX/2; x <= endX; x++) {
+			level[startY+endY/4][x] = ICON_WALL;
+    		
+		}
+		
+		//lower left
+		for (int y = endY/2; y <= endY; y++) {
+			level[y][startX+endX/4] = ICON_WALL;
+    	
+		}
+		for (int x = startX; x <= endX/2; x++) {
+			level[startY+3*endY/4][x] = ICON_WALL;
+    		
+		}
+		
+		//lower right
+		for (int y = endY/2; y <= endY; y++) {
+			level[y][startX+3*endX/4] = ICON_WALL;
+    	
+		}
+		for (int x = endX/2; x <= endX; x++) {
+			level[startY+3*endY/4][x] = ICON_WALL;
+    		
+		}
+    	/*
+		//level[endY][endX]  = 'e';
+		//level[startY][startX] = 's';
+		int width = endX-startX;
+		int height = endY-startY;
+    	if (width >= 3 && height >= 3) {// && !(endX > LEVEL_WIDTH) && !(endY > LEVEL_HEIGHT)) {
+    		if(width > height){
+    			//vertical split
+        		for (int y = startY; y <= endY; y++) {
+        			level[y][startX+endX/2] = ICON_WALL;
+        		}
+        		
+        		//makeMazeRecursive(level, startX, startY, endX/2, endY);
     		}
-    		makeMazeRecursive(level, startX, startY, endX/2, endY/2);
-    		makeMazeRecursive(level, endX/2+2, startY, endX, endY/2);
-    	}
-    	else if(endY-startY > 3) {
-    		for (int y = startY; y <= endY; y++) {
-    			level[y][endX/2+1] = ICON_WALL;
+    		else {
+    			//horizontal split
+    			for (int x = startX; x <= endX; x++) {
+        			level[startY+endY/2][x] = ICON_WALL;
+        		}
+    			
+    			//makeMazeRecursive(level, startX, startY, endX, endY/2);
     		}
     		
+    		makeMazeRecursive(level, startX, startY, endX/2, endY);
     		makeMazeRecursive(level, startX, startY, endX/2, endY/2);
-    		makeMazeRecursive(level, endX/2+2, startY, endX, endY/2);
+    		makeMazeRecursive(level, startX+endX/2, startY, endX/4, endY/4);
+    		drawLevel(level);
+    		//makeMazeRecursive(level, startX+width/2+1, startY, endX, endY);
+
     	}
-    	else {
-    		
-    	}
-  
-    	
-    	
+    	*/
     }
      
     
