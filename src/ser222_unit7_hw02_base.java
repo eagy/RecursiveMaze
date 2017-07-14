@@ -10,8 +10,8 @@ import java.util.Random;
 public class ser222_unit7_hw02_base
 {
     //standard console size in characters.
-    private static final int LEVEL_HEIGHT = 25;
-    private static final int LEVEL_WIDTH = 80;       
+    private static final int LEVEL_HEIGHT = 13;//25;
+    private static final int LEVEL_WIDTH = 40;//80;       
     
     private static final char ICON_WALL = '#';           
     private static final char ICON_BLANK = ' ';
@@ -107,6 +107,9 @@ public class ser222_unit7_hw02_base
     //TODO: complete method.
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY)
     {	
+    	
+    	
+    	/*
     	//first box
 		for (int y = startY; y <= endY; y++) {
 			level[y][startX+endX/2] = ICON_WALL;
@@ -157,37 +160,37 @@ public class ser222_unit7_hw02_base
 			level[startY+3*endY/4][x] = ICON_WALL;
     		
 		}
-    	/*
+		*/
+		
+  
 		//level[endY][endX]  = 'e';
 		//level[startY][startX] = 's';
 		int width = endX-startX;
 		int height = endY-startY;
-    	if (width >= 3 && height >= 3) {// && !(endX > LEVEL_WIDTH) && !(endY > LEVEL_HEIGHT)) {
-    		if(width > height){
-    			//vertical split
-        		for (int y = startY; y <= endY; y++) {
-        			level[y][startX+endX/2] = ICON_WALL;
+		int pointX = endX/2;
+		int pointY = endY/2;
+    	if (width >= 3 && height >= 3) {
+
+    			for (int y = startY; y <= endY; y++) {
+        			level[y][pointX] = ICON_WALL;
         		}
-        		
-        		//makeMazeRecursive(level, startX, startY, endX/2, endY);
-    		}
-    		else {
-    			//horizontal split
+        		drawLevel(level);
+
+
     			for (int x = startX; x <= endX; x++) {
-        			level[startY+endY/2][x] = ICON_WALL;
+        			level[pointY][x] = ICON_WALL;
         		}
-    			
-    			//makeMazeRecursive(level, startX, startY, endX, endY/2);
-    		}
+    			drawLevel(level);
+
+    		makeMazeRecursive(level, startX, startY, pointX, pointY);
     		
-    		makeMazeRecursive(level, startX, startY, endX/2, endY);
-    		makeMazeRecursive(level, startX, startY, endX/2, endY/2);
-    		makeMazeRecursive(level, startX+endX/2, startY, endX/4, endY/4);
-    		drawLevel(level);
+    		makeMazeRecursive(level, startX+pointX, startY, pointX+endX/4, endY/2);
+    		//makeMazeRecursive(level, startX+endX/2, startY, endX/4, endY/4);
+    		//drawLevel(level);
     		//makeMazeRecursive(level, startX+width/2+1, startY, endX, endY);
 
     	}
-    	*/
+ 
     }
      
     
