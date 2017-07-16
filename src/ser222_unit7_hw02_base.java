@@ -10,8 +10,8 @@ import java.util.Random;
 public class ser222_unit7_hw02_base
 {
     //standard console size in characters.
-    private static final int LEVEL_HEIGHT = 13;//25;
-    private static final int LEVEL_WIDTH = 40;//80;       
+    private static final int LEVEL_HEIGHT = 25;
+    private static final int LEVEL_WIDTH = 80;       
     
     private static final char ICON_WALL = '#';           
     private static final char ICON_BLANK = ' ';
@@ -108,89 +108,102 @@ public class ser222_unit7_hw02_base
     private static void makeMazeRecursive(char[][]level, int startX, int startY, int endX, int endY)
     {	
     	
-    	
-    	/*
-    	//first box
-		for (int y = startY; y <= endY; y++) {
-			level[y][startX+endX/2] = ICON_WALL;
-    		
+    	Random rnd = new Random();
+
+		int width = endX-startX;
+		int height = endY-startY;
+		/*
+		if (width > height) {
+			if (endX-startX-1 > 0 && endY-startY-1 > 0) {
+				int rndX = rnd.nextInt(endX-startX-1)+startX+1;
+				int rndY = rnd.nextInt(endY-startY-1)+startY+1;
+			
+				for (int y = startY; y <= endY; y++) {
+	    			level[y][rndX] = ICON_WALL;
+	    		}
+	
+				level[rnd.nextInt(rndY-startY)+startY][rndX] = ICON_BLANK;
+				
+				makeMazeRecursive(level, startX, startY, rndX-1, endY);
+				makeMazeRecursive(level, rndX+1, startY, endX, endY);
+			}
 		}
-		for (int x = startX; x <= endX; x++) {
-			level[startY+endY/2][x] = ICON_WALL;
-    		
-		}
-		
-		//upper left
-		for (int y = startY; y <= endY/2; y++) {
-			level[y][startX+endX/4] = ICON_WALL;
-    	
-		}
-		for (int x = startX; x <= endX/2; x++) {
-			level[startY+endY/4][x] = ICON_WALL;
-    		
-		}
-		drawLevel(level);
-		
-		//upper right
-		for (int y = startY; y <= endY/2; y++) {
-			level[y][startX+3*endX/4] = ICON_WALL;
-    	
-		}
-		for (int x = endX/2; x <= endX; x++) {
-			level[startY+endY/4][x] = ICON_WALL;
-    		
-		}
-		
-		//lower left
-		for (int y = endY/2; y <= endY; y++) {
-			level[y][startX+endX/4] = ICON_WALL;
-    	
-		}
-		for (int x = startX; x <= endX/2; x++) {
-			level[startY+3*endY/4][x] = ICON_WALL;
-    		
-		}
-		
-		//lower right
-		for (int y = endY/2; y <= endY; y++) {
-			level[y][startX+3*endX/4] = ICON_WALL;
-    	
-		}
-		for (int x = endX/2; x <= endX; x++) {
-			level[startY+3*endY/4][x] = ICON_WALL;
-    		
+		else {
+			if (endX-startX-1 > 0 && endY-startY-1 > 0) {
+				int rndX = rnd.nextInt(endX-startX-1)+startX+1;
+				int rndY = rnd.nextInt(endY-startY-1)+startY+1;
+				for (int x = startX; x <= endX; x++) {
+	    			level[rndY][x] = ICON_WALL;
+	    		}
+				level[rndY][rnd.nextInt(rndX-startX)+startX] = ICON_BLANK;
+				
+				makeMazeRecursive(level, startX, startY, endX, rndY-1);
+				makeMazeRecursive(level, startX, rndX+1, rndX-1, endY);
+			}
 		}
 		*/
 		
-  
-		//level[endY][endX]  = 'e';
-		//level[startY][startX] = 's';
-		int width = endX-startX;
-		int height = endY-startY;
-		int pointX = endX/2;
-		int pointY = endY/2;
+		if (width >= 2 && height >= 2) {
+			
+			int rndX = rnd.nextInt(endX-startX-1)+startX+1;
+			int rndY = rnd.nextInt(endY-startY-1)+startY+1;
+			
+			for (int y = startY; y <= endY; y++) {
+    			level[y][rndX] = ICON_WALL;
+    		}
+
+			
+			
+			level[rnd.nextInt(rndY-startY)+startY][rndX] = ICON_BLANK;
+			if(rndY < endY)
+				level[rnd.nextInt(endY-rndY)+rndY][rndX] = ICON_BLANK;
+			else
+				level[endY][rndX] = ICON_BLANK;
+
+			for (int x = startX; x <= endX; x++) {
+    			level[rndY][x] = ICON_WALL;
+    		}
+			level[rndY][rnd.nextInt(rndX-startX)+startX] = ICON_BLANK;
+			if(rndX < endX)
+				level[rndY][rnd.nextInt(endX-rndX)+rndX] = ICON_BLANK;
+			else
+				level[rndY][endX] = ICON_BLANK;
+			makeMazeRecursive(level, startX, startY, rndX-1, rndY-1);
+			makeMazeRecursive(level, rndX+1, startY, endX, rndY-1);
+			makeMazeRecursive(level, startX, rndY+1, rndX-1, endY);
+			makeMazeRecursive(level, rndX+1, rndY+1, endX, endY);
+		}
+		
+		
+		//This is my base case that I used to test my logic to see if i understood the basics of recursive division
+		/*
+		        	
+		int midY = (startY+endY)/2;
+    	int midX = (startX+endX)/2;
     	if (width >= 3 && height >= 3) {
 
-    			for (int y = startY; y <= endY; y++) {
-        			level[y][pointX] = ICON_WALL;
-        		}
-        		drawLevel(level);
+			for (int y = startY; y <= endY; y++) {
+    			level[y][midX] = ICON_WALL;
+    		}
+			level[rnd.nextInt(midY-startY)+startY][midX] = ICON_BLANK;
+			level[rnd.nextInt(endY-midY)+midY][midX] = ICON_BLANK;
+    		drawLevel(level);
 
 
-    			for (int x = startX; x <= endX; x++) {
-        			level[pointY][x] = ICON_WALL;
-        		}
-    			drawLevel(level);
+			for (int x = startX; x <= endX; x++) {
+    			level[midY][x] = ICON_WALL;
+    		}
+			level[midY][rnd.nextInt(midX-startX)+startX] = ICON_BLANK;
+			level[midY][rnd.nextInt(endX-midX)+midX] = ICON_BLANK;
+			drawLevel(level);
 
-    		makeMazeRecursive(level, startX, startY, pointX, pointY);
+    		makeMazeRecursive(level, startX, startY, midX-1, midY-1);
+    		makeMazeRecursive(level, midX+1, startY, endX, midY-1);
+    		makeMazeRecursive(level, startX, midY+1, midX-1, endY);
+    		makeMazeRecursive(level, midX+1, midY+1, endX, endY);
     		
-    		makeMazeRecursive(level, startX+pointX, startY, pointX+endX/4, endY/2);
-    		//makeMazeRecursive(level, startX+endX/2, startY, endX/4, endY/4);
-    		//drawLevel(level);
-    		//makeMazeRecursive(level, startX+width/2+1, startY, endX, endY);
-
     	}
- 
+ 		*/
     }
      
     
