@@ -1,8 +1,8 @@
 /**
- * Write a description of class Base_HW01 here.
+ * Class uses a recursive division algorithm to build a maze. 
  * 
- * @author (your name), Acuna
- * @version (a version number or a date)
+ * @author Daniel Eagy
+ * @version 0.80 7/16/2017
  */
 import java.io.IOException;
 import java.util.Random;
