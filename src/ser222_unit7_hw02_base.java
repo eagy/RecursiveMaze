@@ -120,44 +120,44 @@ public class ser222_unit7_hw02_base
 
 		int width = endX-startX;
 		int height = endY-startY;
-		
-		if (width >= 2 && height >= 2) {
+		int rndX ;
+		int rndY;
+		if (width >= 1 && height >= 1) {
+			if(endX-startX-1 > 0)
+				rndX = rnd.nextInt(endX-startX-1)+startX+1;
+			else
+				rndX = endX;
+			if(endY-startY-1 > 0)
+				rndY = rnd.nextInt(endY-startY-1)+startY+1;
+			else
+				rndY = endY;
 			
-			int rndX = rnd.nextInt(endX-startX-1)+startX+1;
-			int rndY = rnd.nextInt(endY-startY-1)+startY+1;
-			
-			//Draw the vertical wall
-			for (int y = startY; y <= endY; y++) {
-    			level[y][rndX] = ICON_WALL;
-    		}
-			
-			//Draw the exits
-			level[rnd.nextInt(rndY-startY)+startY][rndX] = ICON_BLANK;
-			if(rndY < endY)
-				level[rnd.nextInt(endY-rndY)+rndY][rndX] = ICON_BLANK;
-
-			
-			//Draw the horizontal wall 
-			for (int x = startX; x <= endX; x++) {
-    			level[rndY][x] = ICON_WALL;
-    		}
-			
-			//Draw the exits
-			level[rndY][rnd.nextInt(rndX-startX)+startX] = ICON_BLANK;
-			if(rndX < endX)
-				level[rndY][rnd.nextInt(endX-rndX)+rndX] = ICON_BLANK;
-
-			
-			
-			//recursive calls 
-			makeMazeRecursive(level, startX, startY, rndX-1, rndY-1);
-			makeMazeRecursive(level, rndX+1, startY, endX, rndY-1);
-			makeMazeRecursive(level, startX, rndY+1, rndX-1, endY);
-			makeMazeRecursive(level, rndX+1, rndY+1, endX, endY);
-
+			if (width >= height) {
+				for (int y = startY; y <= endY; y++) {
+	    			level[y][rndX] = ICON_WALL;
+	    		}
+				
+				//Draw the exits
+				if(rndY > startY)
+					level[rnd.nextInt(rndY-startY)+startY][rndX] = ICON_BLANK;
+				
+				makeMazeRecursive(level, startX, startY, rndX-1, endY);
+				makeMazeRecursive(level, rndX+1, startY, endX, endY);
+			}
+			else {
+				//Draw the horizontal wall 
+				for (int x = startX; x <= endX; x++) {
+	    			level[rndY][x] = ICON_WALL;
+	    		}
+	
+				
+				//Draw the exits
+				if(rndX > startX)
+					level[rndY][rnd.nextInt(rndX-startX)+startX] = ICON_BLANK;
+				makeMazeRecursive(level, startX, startY, endX, rndY-1);
+				makeMazeRecursive(level, startX, rndY+1, endX, endY);
+			}
 		}
-		
-		
     }
      
     
